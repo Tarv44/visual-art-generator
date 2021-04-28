@@ -1,6 +1,6 @@
-import generateEmptyGrid from './generateEmptyGrid';
-import { randomFromRange, randomFromArray } from './helperFunctions';
-import generateParams from './generate-params';
+const generateEmptyGrid = require('./generateEmptyGrid');
+const { randomFromRange, randomFromArray } = require('./helperFunctions');
+const generateParams =  require('./generate-params');
 
 function selectRandomCell(totalColumns, totalRows) {
     const column = randomFromRange(totalColumns);
@@ -9,7 +9,7 @@ function selectRandomCell(totalColumns, totalRows) {
 }
 
 //Generates random rgb value based on color range constraints
-export function rangedRandomRGB(gridConst) {
+function rangedRandomRGB(gridConst) {
     const colorRanges = gridConst.skew
     const colorObject = {}
     colorObject.red = (randomFromRange(colorRanges.redUpper - colorRanges.redLow + 1) + colorRanges.redLow)
@@ -163,14 +163,22 @@ function fillInitCells(currentGrid) {
 
 //If grid is generated or is completely full, generate new grid 
 //and fill initial cells. Otherwise, simply hide form for restart.
-export function fillStart(currentGrid) {
-    let newGrid = currentGrid
+function fillStart(totalColumns, totalRows, cellSize) {
+    const gridData = {
+        totalColumns,
+        totalRows,
+        totalCells: totalRows * totalColumns,
+        cellSize,
+        totalCellsFilled: 0,
+        fillableCells: [],
+    }
 
-    newGrid = generateParams(newGrid)
-    newGrid = generateEmptyGrid(newGrid)
-    newGrid = fillInitCells(newGrid)
+    gridData.params = generateParams()
+    gridData.params.node = {totalStart: 1}
+    gridData.grid = generateEmptyGrid(totalColumns, totalRows)
+    gridStart = fillInitCells(gridData)
 
-    return newGrid
+    return gridStart
 }
 
 //Go through process of selecting a random fillable cell
@@ -193,7 +201,7 @@ function fillColor(currentGrid) {
 
 //Fill grid until the designated portion of grid to be filled
 //is reached, or until grid is full, whichever comes first.
-export function fillCellGroup(currentGrid) {
+function fillCellGroup(currentGrid) {
     let newGrid = currentGrid
     
     while (newGrid.totalCells !== newGrid.totalCellsFilled) {
@@ -201,4 +209,9 @@ export function fillCellGroup(currentGrid) {
     }
     
     return newGrid
+}
+
+module.exports = {
+    fillStart,
+    fillCellGroup
 }

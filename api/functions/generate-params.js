@@ -1,24 +1,24 @@
-import {randomFromRange as random} from './helperFunctions';
+const {randomFromRange} = require('./helperFunctions');
 
 const generateColorChances = () => {
     const colorChances = {}
     
     //Chance of random color
-    const randomChance = random(3)
+    const randomChance = randomFromRange(3)
     if (randomChance === 0) {
         colorChances.random = 0
     }
 
     if (randomChance === 1) {
-        colorChances.random = (random(100) + 1)/100
+        colorChances.random = (randomFromRange(100) + 1)/100
     }
 
     if (randomChance === 2) {
-        colorChances.random = (random(600) + 1)/100
+        colorChances.random = (randomFromRange(600) + 1)/100
     }
 
     //Chance of Skew Color
-    const skewChance = random(6)
+    const skewChance = randomFromRange(6)
     if (skewChance === 0) {
         colorChances.skew = 0
     }
@@ -41,25 +41,25 @@ const generateSkewParams = () => {
     const skewParams = {}
     
     //Skew Range
-    const skewRangeChance = random(4)
+    const skewRangeChance = randomFromRange(4)
     if (skewRangeChance === 0) {
-        skewParams.changeRange = random(3) + 1
+        skewParams.changeRange = randomFromRange(3) + 1
     }
 
     if (skewRangeChance === 1) {
-        skewParams.changeRange = random(4) + 4
+        skewParams.changeRange = randomFromRange(4) + 4
     }
 
     if (skewRangeChance === 2) {
-        skewParams.changeRange = random(8) + 9
+        skewParams.changeRange = randomFromRange(8) + 9
     }
 
     if (skewRangeChance === 3) {
-        skewParams.changeRange = random(22) + 18
+        skewParams.changeRange = randomFromRange(22) + 18
     }
 
     //Color Range
-    const colorRangeChance = random(100)
+    const colorRangeChance = randomFromRange(100)
 
     if (colorRangeChance === 0) {
         skewParams.redLow = 0
@@ -72,12 +72,12 @@ const generateSkewParams = () => {
 
     if (colorRangeChance > 0) {
         //Red
-        if (random(100) < 5) {
+        if (randomFromRange(100) < 5) {
             skewParams.redLow = 0
             skewParams.redUpper = 255
         } else {
-            const num1 = random(256)
-            const num2 = random(256)
+            const num1 = randomFromRange(256)
+            const num2 = randomFromRange(256)
             if (num1 >= num2) {
                 skewParams.redUpper = num1
                 skewParams.redLow = num2
@@ -88,12 +88,12 @@ const generateSkewParams = () => {
         }
 
         //Blue
-        if (random(100) < 5) {
+        if (randomFromRange(100) < 5) {
             skewParams.blueLow = 0
             skewParams.blueUpper = 255
         } else {
-            const num1 = random(256)
-            const num2 = random(256)
+            const num1 = randomFromRange(256)
+            const num2 = randomFromRange(256)
             if (num1 >= num2) {
                 skewParams.blueUpper = num1
                 skewParams.blueLow = num2
@@ -104,12 +104,12 @@ const generateSkewParams = () => {
         }
 
         //Green
-        if (random(100) < 5) {
+        if (randomFromRange(100) < 5) {
             skewParams.greenLow = 0
             skewParams.greenUpper = 255
         } else {
-            const num1 = random(256)
-            const num2 = random(256)
+            const num1 = randomFromRange(256)
+            const num2 = randomFromRange(256)
             if (num1 >= num2) {
                 skewParams.greenUpper = num1
                 skewParams.greenLow = num2
@@ -127,22 +127,22 @@ const generateSkewParams = () => {
 //     const nodeParams = {}
 
 //     //Starting nodes
-//     const startNodeChance = random(3)
+//     const startNodeChance = randomFromRange(3)
 
 //     if (startNodeChance === 0) {
 //         nodeParams.totalStart = 1
 //     }
 
 //     if (startNodeChance === 1) {
-//         nodeParams.totalStart = random(10) + 1
+//         nodeParams.totalStart = randomFromRange(10) + 1
 //     }
 
 //     if (startNodeChance === 2) {
-//         nodeParams.totalStart = random(100) + 1
+//         nodeParams.totalStart = randomFromRange(100) + 1
 //     }
 
 //     // if (startNodeChance === 3) {
-//     //     nodeParams.totalStart = random(1000) + 1
+//     //     nodeParams.totalStart = randomFromRange(1000) + 1
 //     // }
 
 //     nodeParams.chanceNew = 0
@@ -152,10 +152,12 @@ const generateSkewParams = () => {
 //     return nodeParams
 // }
 
-export default function generateParams(currentGrid) {
-    const newGrid = currentGrid
-    newGrid.params.colorChances = generateColorChances()
-    newGrid.params.skew = generateSkewParams()
+function generateParams() {
+    const params = {}
+    params.colorChances = generateColorChances()
+    params.skew = generateSkewParams()
     // newGrid.params.node = generateNodeParams()
-    return newGrid
+    return params
 } 
+
+module.exports = generateParams

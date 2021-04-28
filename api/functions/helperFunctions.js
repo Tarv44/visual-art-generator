@@ -1,13 +1,13 @@
-export function randomFromRange(range) {
+function randomFromRange(range) {
     return Math.floor(Math.random() * range)
 }
 
-export function randomFromArray(array) {
+function randomFromArray(array) {
     const i = randomFromRange(array.length)
     return array[i]
 }
 
-export function randomRGB() {
+function randomRGB() {
     const colorObject = {}
     colorObject.red = randomFromRange(256)
     colorObject.green = randomFromRange(256)
@@ -15,4 +15,10 @@ export function randomRGB() {
     const rgb = `rgba(${colorObject.red}, ${colorObject.green}, ${colorObject.blue}, 1)`
     colorObject.rgb = rgb
     return colorObject
+}
+
+module.exports = {
+    randomFromRange,
+    randomFromArray,
+    randomRGB
 }

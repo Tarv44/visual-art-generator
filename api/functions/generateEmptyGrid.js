@@ -1,4 +1,4 @@
-function generateEmptyCell(col, r, size) {
+function generateEmptyCell(col, r) {
     const cellId = `c${col}r${r}`
     const emptyCell = {
         id: cellId,
@@ -6,27 +6,23 @@ function generateEmptyCell(col, r, size) {
         row: r,
         opacity: 0,
         color: null,
-        size
     }
     return emptyCell
 }
 
-export default function generateEmptyGrid(state) {
-    const gridState = state
+function generateEmptyGrid(totalColumns, totalRows) {
     const columns = []
-    for (let c = 0; c < state.totalColumns; c++) {
+    for (let c = 0; c < totalColumns; c++) {
         const columnArray = []
-        for (let r = 0; r < state.totalRows; r++) {
-            columnArray.push(generateEmptyCell(c, r, state.cellSize))
+        for (let r = 0; r < totalRows; r++) {
+            columnArray.push(generateEmptyCell(c, r))
         }
         columns.push(columnArray)
     }
-    gridState.grid = {columns}
-    gridState.totalCellsFilled = 0
-    return gridState
+    return {columns}
 }
 
-export function generateDummyGrid() {
+function generateDummyGrid() {
     const gridState = {}
     const gridArray = []
     for (let c = 0; c < 10; c++) {
@@ -39,3 +35,5 @@ export function generateDummyGrid() {
     gridState.columns = gridArray
     return gridState
 }
+
+module.exports = generateEmptyGrid
