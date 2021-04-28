@@ -1,0 +1,14 @@
+.cell {
+    height: 15px;
+    width: 15px;
+    /* transition: 1s ease-in opacity; */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

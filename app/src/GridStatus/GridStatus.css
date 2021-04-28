@@ -1,0 +1,22 @@
+.grid-status {
+    text-align: center;
+    min-width: 80%;
+}
+
+.grid-status p {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.grid-status p span {
+    display: inline-block;
+}
+
+.filling {
+    color: green;
+}
+
+.not-filling {
+    color: red;
+}
