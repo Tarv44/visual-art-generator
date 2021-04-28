@@ -4,6 +4,7 @@ import Nav from './Nav/Nav';
 
 import './App.css';
 import GridStatus from './GridStatus/GridStatus';
+import ClipLoader from "react-spinners/ClipLoader";
 
 import {API_ENDPOINT} from './config'
 
@@ -12,6 +13,7 @@ class App extends Component {
     super(props);
 
     this.state = {
+      generating: false,
       svg: null,
       grid: null
       // totalColumns,
@@ -49,6 +51,7 @@ class App extends Component {
   //Start or restart filling grid.
   generateGrid = (e) => {
     e.preventDefault();
+    this.setState({generating: true})
     const body = {
       width: window.innerWidth, 
       height: window.innerHeight
@@ -71,20 +74,30 @@ class App extends Component {
       })
       .then(res => {
         this.setState({
+          generating: false,
           svg: res.svg
         })
       })
   }
   
-  
   render() {
+
+    const LoadingMsg = (
+      <div style={{textAlign: "center"}}>
+        <p>This program uses an algorithm to randomly color pixels based on various probabilities.</p>
+        <p>Given your screen size, the program is currently generating {window.innerWidth * window.innerHeight} uniquely colored pixels.</p>
+        <p>This could take a few minutes...</p>
+        <ClipLoader color={"black"} loading={true} size={150} />
+      </div>
+    )
 
     return (
         <div className="App">
           <Nav generate={this.generateGrid}/>
           <main>
-            {this.state.svg && <div dangerouslySetInnerHTML={{__html: this.state.svg}} />}
-            {/* <Grid grid={this.state.grid}/> */}
+            {this.state.generating
+              ? LoadingMsg
+              : <div dangerouslySetInnerHTML={{__html: this.state.svg}} />}
             {this.state.grid !== null && <GridStatus params={this.state.params}/>}
           </main>
         </div>   
