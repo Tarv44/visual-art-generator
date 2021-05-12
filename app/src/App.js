@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Grid from './Grid/Grid';
+// import Grid from './Grid/Grid';
 import Nav from './Nav/Nav';
 
 import './App.css';
@@ -81,12 +81,27 @@ class App extends Component {
   }
   
   render() {
+    const totalCells = (width, height) => {
+      let cellSize
+      let totalColumns
+      let totalRows
+      if (width >= height) {
+        totalColumns = 350
+        cellSize = width/totalColumns
+        totalRows = Math.ceil(height/cellSize)
+      } else {
+          totalRows = 120
+          cellSize = height/totalRows
+          totalColumns = Math.ceil(width/cellSize)
+      }
+      return totalColumns * totalRows
+    }
 
     const LoadingMsg = (
       <div style={{textAlign: "center"}}>
         <p>This program uses an algorithm to randomly color pixels based on various probabilities.</p>
-        <p>Given your screen size, the program is currently generating {window.innerWidth * window.innerHeight} uniquely colored pixels.</p>
-        <p>This could take a few minutes...</p>
+        <p>Given your screen size, the program is currently generating {totalCells(window.innerWidth,window.innerHeight)} uniquely colored pixels.</p>
+        <p>This could take a few seconds...</p>
         <ClipLoader color={"black"} loading={true} size={150} />
       </div>
     )

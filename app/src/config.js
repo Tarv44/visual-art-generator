@@ -1,3 +1,3 @@
 module.exports = {
-    API_ENDPOINT: 'http://localhost:8001/api'
+    API_ENDPOINT: 'https://still-brook-37307.herokuapp.com/api'
 }
