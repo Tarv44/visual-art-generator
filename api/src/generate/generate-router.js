@@ -8,20 +8,21 @@ GenRouter
     .route('/')
     .post(jsonParser, (req, res, next) => {
         const {width, height} = req.body
+        console.log(width,height)
         let totalColumns = width
         let totalRows = height
-        // let totalCells
+        let totalCells
         let cellSize = 1
-        // if (width >= height) {
-        //     totalColumns = 350
-        //     cellSize = width/totalColumns
-        //     totalRows = Math.ceil(height/cellSize)
-        // } else {
-        //     totalRows = 120
-        //     cellSize = height/totalRows
-        //     totalColumns = Math.ceil(width/cellSize)
-        // }
-        // totalCells = totalRows * totalColumns
+        if (width >= height) {
+            totalColumns = 350
+            cellSize = width/totalColumns
+            totalRows = Math.ceil(height/cellSize)
+        } else {
+            totalRows = 120
+            cellSize = height/totalRows
+            totalColumns = Math.ceil(width/cellSize)
+        }
+        totalCells = totalRows * totalColumns
         let gridData = fillStart(totalColumns, totalRows, cellSize)
         gridData = fillCellGroup(gridData)
         let svg = (
